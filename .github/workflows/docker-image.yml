@@ -1,0 +1,39 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Login to Docker Hub
+      run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and push Docker image
+      env:
+        DOCKER_BUILDKIT: 1
+      run: |
+        docker buildx create --use
+        docker buildx inspect
+
+        docker buildx build \
+          --platform linux/amd64,linux/arm64 \
+          -t kiko117001/todoapp:${GITHUB_RUN_NUMBER} \
+          -t kiko117001/todoapp:latest \
+          .
+
+        docker push kiko117001/todoapp:${GITHUB_RUN_NUMBER}
+        docker push kiko117001/todoapp:latest
