@@ -26,14 +26,14 @@ jobs:
       env:
         DOCKER_BUILDKIT: 1
       run: |
-        docker buildx create --use
-        docker buildx inspect
-
-        docker buildx build \
-          --platform linux/amd64,linux/arm64 \
-          -t kiko117001/todoapp:${GITHUB_RUN_NUMBER} \
-          -t kiko117001/todoapp:latest \
-          .
-
+        # Create a new builder instance
+        docker buildx create --use --name antonelli
+        
+        # Display information about the builder
+        docker buildx inspect antonelli
+        
+        # Build the Docker image with multi-platform support
+        docker buildx build --platform linux/amd64,linux/arm64 -t kiko117001/todoapp:${GITHUB_RUN_NUMBER} -t kiko117001/todoapp:latest --builder=antonelli .
+        
         docker push kiko117001/todoapp:${GITHUB_RUN_NUMBER}
         docker push kiko117001/todoapp:latest
