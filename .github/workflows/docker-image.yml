@@ -31,9 +31,9 @@ jobs:
 
         docker buildx build \
           --platform linux/amd64,linux/arm64 \
-          -t your-docker-username/your-app-name:${GITHUB_RUN_NUMBER} \
-          -t your-docker-username/your-app-name:latest \
+          -t kiko117001/todoapp:${GITHUB_RUN_NUMBER} \
+          -t kiko117001/todoappe:latest \
           .
 
-        docker push your-docker-username/your-app-name:${GITHUB_RUN_NUMBER}
-        docker push your-docker-username/your-app-name:latest
+        docker push kiko117001/todoapp:${GITHUB_RUN_NUMBER}
+        docker push kiko117001/todoapp:latest
