@@ -32,7 +32,7 @@ jobs:
         docker buildx build \
           --platform linux/amd64,linux/arm64 \
           -t kiko117001/todoapp:${GITHUB_RUN_NUMBER} \
-          -t kiko117001/todoappe:latest \
+          -t kiko117001/todoapp:latest \
           .
 
         docker push kiko117001/todoapp:${GITHUB_RUN_NUMBER}
