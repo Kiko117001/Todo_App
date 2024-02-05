@@ -31,6 +31,9 @@ jobs:
         
         # Display information about the builder
         docker buildx inspect antonelli
+
+        # Load the image from the cache
+        docker buildx build --load -t kiko117001/todoapp:${GITHUB_RUN_NUMBER} -t kiko117001/todoapp:latest --builder=antonelli .
         
         # Build the Docker image with multi-platform support
         docker buildx build --platform linux/amd64,linux/arm64 -t kiko117001/todoapp:${GITHUB_RUN_NUMBER} -t kiko117001/todoapp:latest --builder=antonelli .
