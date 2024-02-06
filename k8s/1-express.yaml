@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todoapp
+  namespace: staging
+  labels:
+    app: todoapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todoapp
+  template:
+    metadata:
+      labels:
+        app: todoapp
+    spec:
+      containers:
+      - name: todoapp
+        image: kiko117001/todoapp:1
+        ports:
+        - name: http
+          containerPort: 8080
+        resources:
+          requests:
+            memory: 64Mi
+            cpu: 100m
+          limits:
+            memory: 128Mi
+            cpu: 300m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todoapp
+  namespace: staging
+spec:
+  selector:
+    app: todoapp
+  ports:
+  - protocol: TCP
+    port: 3000
+    targetPort: 3000
